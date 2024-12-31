@@ -1,0 +1,49 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjut.springbootprj.dao.DangerMapper">
+    <resultMap id="DangerResultMap" type="com.zjut.springbootprj.pojo.Danger">
+        <id column="id" property="id"/>
+        <result property="fTime" column="f_time"/>
+        <result property="cTime" column="c_time"/>
+        <association property="monitor" javaType="com.zjut.springbootprj.pojo.Monitor" column="m_id" select="com.zjut.springbootprj.dao.MonitorMapper.queryById">
+        </association>
+        <association property="securityGuard" javaType="com.zjut.springbootprj.pojo.SecurityGuard" column="p_id" select="com.zjut.springbootprj.dao.SecurityGuardMapper.queryById">
+        </association>
+        <collection property="images" column="id" select="com.zjut.springbootprj.dao.ImageMapper.queryById"
+                    javaType="List"/>
+    </resultMap>
+
+    <select id="queryDto" resultMap="DangerResultMap" parameterType="com.zjut.springbootprj.pojo.dto.DangerDto">
+        select danger.id,danger.type,danger.f_time,danger.m_id,danger.dispose,danger.p_id,danger.status,danger.remark,danger.c_time
+        from danger
+        left join securityguard on danger.p_id=securityguard.id
+        left join monitor on danger.m_id=monitor.id
+        where 1=1
+        <if test="fTime!=null">
+          and DATE(danger.f_time) between #{fTime} and #{fTime}
+        </if>
+        <if test="aId!=null">
+            and monitor.a_id = #{aId}
+        </if>
+        <if test="type!=null and type!=''">
+            and danger.type = #{type}
+        </if>
+        <if test="mId!=null">
+            and danger.m_id = #{mId}
+        </if>
+        <if test="pName!=null and pName!=''">
+            and securityguard.name LIKE CONCAT('%', #{pName}, '%')
+        </if>
+        <if test="dispose!=null">
+            and danger.dispose=#{dispose}
+        </if>
+    </select>
+    <delete id="deleteByIds" parameterType="Integer">
+        delete from danger where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

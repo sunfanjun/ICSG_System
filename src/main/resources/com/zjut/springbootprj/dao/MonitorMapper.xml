@@ -1,0 +1,29 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjut.springbootprj.dao.MonitorMapper">
+    <resultMap id="MonitorResultMap" type="com.zjut.springbootprj.pojo.Monitor">
+        <association property="area" javaType="com.zjut.springbootprj.pojo.Area" column="a_id" select="com.zjut.springbootprj.dao.AreaMapper.queryById">
+        </association>
+    </resultMap>
+
+    <select id="queryDto" resultMap="MonitorResultMap" parameterType="com.zjut.springbootprj.pojo.dto.MonitorDto">
+        select * from monitor where 1=1
+        <if test="id!=null">
+            and id = #{id}
+        </if>
+        <if test="status!=null">
+            and status = #{status}
+        </if>
+        <if test="aId!=null">
+            and a_id = #{aId}
+        </if>
+    </select>
+
+    <delete id="deleteByIds" parameterType="Integer">
+        delete from monitor where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,17 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjut.springbootprj.dao.ImageMapper">
+    <resultMap id="ImageResultMapper" type="com.zjut.springbootprj.pojo.Image">
+        <association property="danger" javaType="com.zjut.springbootprj.pojo.Danger" column="d_id" select="com.zjut.springbootprj.dao.DangerMapper.queryById">
+        </association>
+    </resultMap>
+
+
+    <delete id="deleteByIds" parameterType="Integer">
+        delete from image where d_id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
