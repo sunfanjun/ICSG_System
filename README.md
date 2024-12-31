@@ -1,8 +1,6 @@
-# ICSG_System
-Intelligent Campus Security Guarantee System
+# Intelligent Campus Security Guarantee System
 
-```
-# Getting Started
+## Getting Started
 
 ### Reference Documentation
 
@@ -28,4 +26,4 @@ The following guides illustrate how to use some features concretely:
 * [MyBatis Quick Start](https://github.com/mybatis/spring-boot-starter/wiki/Quick-Start)
 * [Accessing data with MySQL](https://spring.io/guides/gs/accessing-data-mysql/)
 * [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
-```
+
